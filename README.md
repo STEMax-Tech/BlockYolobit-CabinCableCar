@@ -1,11 +1,12 @@
 # BlockYolobit-CabinCableCar
-#### Link Project: https://app.ohstem.vn/#!/share/yolobit/2uGq6jEMkQ2OhWFi41xGQS544xX
+#### Link Project: https://app.ohstem.vn/#!/share/yolobit/2uO1gG9vUY1w2xXrxOi8f8K5syU
 #### Code Block:
 ![image](https://github.com/user-attachments/assets/537db569-8f50-4f97-9a9d-b0f1d6535d2c)
 ![image](https://github.com/user-attachments/assets/dd9c996f-17d7-4cde-b96a-0f733fe3a4a4)
 
 #### Code Python:
 ```
+import music
 from yolobit import *
 button_a.on_pressed = None
 button_b.on_pressed = None
@@ -13,15 +14,17 @@ button_a.on_pressed_ab = button_b.on_pressed_ab = -1
 import time
 
 if True:
+  music.stop()
   isRunning = False
   isForward = True
   edgeLightDetect = True
-  light = 100
+  light = 50
   speed = 100
   delayCount = 0
 
 while True:
   if button_a.is_pressed():
+    music.play(['B5:0.25'], wait=True)
     while button_a.is_pressed():
       pass
     light = (light if isinstance(light, (int, float)) else 0) + 10
@@ -29,6 +32,9 @@ while True:
       light = 50
     display.scroll(light)
   if button_b.is_pressed():
+    music.play(['C5:0.5'], wait=True)
+    while button_b.is_pressed():
+      pass
     isRunning = True
     timer.reset()
   if isRunning and pin2.read_analog() / 10 < light:
@@ -39,6 +45,7 @@ while True:
     if delayCount > 2500:
       isRunning = False
       isForward = not isForward
+      music.play(music.POWER_DOWN, wait=False)
   else:
     edgeLightDetect = True
   if isRunning and isForward:
@@ -56,4 +63,5 @@ while True:
   time.sleep_ms(1)
   print('sens:' + ': ' + str((pin2.read_analog() / 10)))
   time.sleep_ms(10)
+
 
